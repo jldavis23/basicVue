@@ -17,7 +17,6 @@ createApp({
     },
     computed: {
         filteredPoke() {
-            //return this.showFavs ? this.pokemon.filter((p) => p.isFavorite) : this.pokemon
             return this.showFavs ? this.pokemon.filter((p) => p.isFavorite) : this.sortedPokemon ? this.sortedPokemon : this.pokemon
         }
     },
@@ -40,7 +39,6 @@ createApp({
             }
         },
         showStats(poke) {
-            console.log(poke)
             this.currentStats = poke
         },
         toggleFavorite(pokeID) {

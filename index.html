@@ -9,11 +9,20 @@
 <body>
     <div id="app">
         <div>
-            <div v-if="!currentStats" class="stats-section">
+            <div v-if="!currentStats" id="stats-section">
                 Click on a Pokemon to view stats
             </div>
-            <div v-else class="stats-section">
-                {{currentStats.name}}
+            <div v-else id="stats-section">
+                <div>
+                    <h2>{{currentStats.name.toUpperCase()}}</h2>
+                    <img :src="currentStats.sprites.front_default">
+                </div>
+                <div>
+                    <p>Height: {{currentStats.height}}</p>
+                    <p>Weight: {{currentStats.weight}}</p>
+                    <p>Abilities: <span v-for="ability in currentStats.abilities" class="stat-span">{{ability.ability.name}}</span></p>
+                    <p>Type: <span v-for="type in currentStats.types" class="stat-span">{{type.type.name}}</span></p>
+                </div>
             </div>
 
             <div class="tab-button-wrapper">
@@ -28,10 +37,10 @@
                     <button class="sort-button">Type</button>
                 </div>
                 <div class="poke-wrapper">
-                    <figure v-for="poke in pokemon" :key="poke.id" @click="showStats(poke)" class="poke-card">
+                    <a href="#stats-section" v-for="poke in pokemon" :key="poke.id" @click="showStats(poke)" class="poke-card">
                         <img :src="poke.sprites.front_default">
-                        <figcaption>{{poke.name.toUpperCase()}}</figcaption>
-                    </figure>
+                        <p>{{poke.name.toUpperCase()}}</p>
+                    </a>
                 </div>
             </div>
             
@@ -44,13 +53,31 @@
 </html>
 
 <style>
+    html {
+        scroll-behavior: smooth;
+    }
+
     body {
         margin: 0;
         font-family: sans-serif;
     }
 
-    .stats-section {
-        height: 30vh;
+    #stats-section {
+        height: 40vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+    }
+
+    #stats-section img {
+        width: 100%;
+    }
+
+    .stat-span {
+        margin: 0 5px;
+        padding: 5px;
+        background-color: #ffd000;
     }
 
     .tab-button-wrapper {
@@ -106,6 +133,9 @@
         cursor: pointer;
         border: 3px solid #fff;
         transition: 0.1s;
+        text-decoration: none;
+        color: #000;
+        display: block;
     }
 
     .poke-card:hover {
@@ -116,7 +146,7 @@
         width: 100%;
     }
 
-    .poke-card figcaption {
+    .poke-card p {
         text-align: center;
     }
 

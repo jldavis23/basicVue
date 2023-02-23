@@ -4,12 +4,122 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Pokemon</title>
 </head>
 <body>
     <div id="app">
-        <h1>{{ message }}</h1>
+        <div>
+            <div v-if="!currentStats" class="stats-section">
+                Click on a Pokemon to view stats
+            </div>
+            <div v-else class="stats-section">
+                {{currentStats.name}}
+            </div>
+
+            <div class="tab-button-wrapper">
+                <button class="tab-button tab-active">View All</button>
+                <button class="tab-button">Favorites</button>
+            </div>
+
+            <div class="cards-area">
+                <div class="sort-buttons">
+                    Sort By:
+                    <button class="sort-button sort-active">Default</button>
+                    <button class="sort-button">Type</button>
+                </div>
+                <div class="poke-wrapper">
+                    <figure v-for="poke in pokemon" :key="poke.id" @click="showStats(poke)" class="poke-card">
+                        <img :src="poke.sprites.front_default">
+                        <figcaption>{{poke.name.toUpperCase()}}</figcaption>
+                    </figure>
+                </div>
+            </div>
+            
+
+            
+        </div>
     </div>
     <script type="module" src="main.js"></script>
 </body>
 </html>
+
+<style>
+    body {
+        margin: 0;
+        font-family: sans-serif;
+    }
+
+    .stats-section {
+        height: 30vh;
+    }
+
+    .tab-button-wrapper {
+        margin-left: 20px;
+    }
+
+    .tab-button {
+        background-color: #878fa7;
+        border: none;
+        padding: 10px;
+        color: #fff;
+        border-radius: 5px 5px 0 0;
+    }
+
+    .tab-active {
+        
+        background-color: #72798c;
+    }
+
+    .cards-area {
+        background-color: #72798c;
+    }
+
+    .sort-buttons {
+        padding: 20px 0 0 20px;
+        color: #fff;
+    }
+
+    .sort-button {
+        padding: 7px;
+        border: none;
+        margin-right: 5px;
+        border-radius: 5px;
+    }
+
+    .sort-active {
+        background-color: #ffd000
+    }
+
+    .poke-wrapper {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .poke-card {
+        background-color: #fff;
+        padding: 10px;
+        margin: 0;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        cursor: pointer;
+        border: 3px solid #fff;
+        transition: 0.1s;
+    }
+
+    .poke-card:hover {
+        border: 3px solid #ffd000;
+    }
+
+    .poke-card img {
+        width: 100%;
+    }
+
+    .poke-card figcaption {
+        text-align: center;
+    }
+
+    
+</style>
+

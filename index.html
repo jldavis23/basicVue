@@ -21,13 +21,16 @@
                     <p>Height: {{currentStats.height}}</p>
                     <p>Weight: {{currentStats.weight}}</p>
                     <p>Abilities: <span v-for="ability in currentStats.abilities" class="stat-span">{{ability.ability.name}}</span></p>
-                    <p>Type: <span v-for="type in currentStats.types" class="stat-span">{{type.type.name}}</span></p>
+                    <p>Types: <span v-for="types in currentStats.types" class="stat-span">{{types.type.name}}</span></p>
+
+                    <button v-if="!currentStats.isFavorite" @click="toggleFavorite(currentStats.id)">Add to Favorites</button>
+                    <button v-else @click="toggleFavorite(currentStats.id)">Remove from Favorites</button>
                 </div>
             </div>
 
             <div class="tab-button-wrapper">
-                <button class="tab-button tab-active">View All</button>
-                <button class="tab-button">Favorites</button>
+                <button @click="showFavs = false" :class="!showFavs ? 'tab-button tab-active' : 'tab-button'">View All</button>
+                <button @click="showFavs = true" :class="showFavs ? 'tab-button tab-active' : 'tab-button'">Favorites</button>
             </div>
 
             <div class="cards-area">
@@ -37,7 +40,7 @@
                     <button class="sort-button">Type</button>
                 </div>
                 <div class="poke-wrapper">
-                    <a href="#stats-section" v-for="poke in pokemon" :key="poke.id" @click="showStats(poke)" class="poke-card">
+                    <a href="#stats-section" v-for="poke in filteredPoke" :key="poke.id" @click="showStats(poke)" class="poke-card">
                         <img :src="poke.sprites.front_default">
                         <p>{{poke.name.toUpperCase()}}</p>
                     </a>
@@ -90,6 +93,7 @@
         padding: 10px;
         color: #fff;
         border-radius: 5px 5px 0 0;
+        cursor: pointer;
     }
 
     .tab-active {
@@ -99,6 +103,7 @@
 
     .cards-area {
         background-color: #72798c;
+        min-height: 60vh;
     }
 
     .sort-buttons {

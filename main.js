@@ -7,7 +7,14 @@ createApp({
     data() {
         return {
             pokemon: [],
-            currentStats: null
+            favPokemon: [],
+            currentStats: null,
+            showFavs: false
+        }
+    },
+    computed: {
+        filteredPoke() {
+            return this.showFavs ? this.pokemon.filter((p) => p.isFavorite) : this.pokemon
         }
     },
     methods: {
@@ -16,14 +23,19 @@ createApp({
                 fetch(`https://pokeapi.co/api/v2/pokemon/${i}`)
                 .then(response => response.json())
                 .then(data => {
-                    this.pokemon = [...this.pokemon, data]
+                    let p = data
+                    p.isFavorite = false
+                    this.pokemon = [...this.pokemon, p]
                 })
             }
-            
         },
         showStats(poke) {
             console.log(poke)
             this.currentStats = poke
+        },
+        toggleFavorite(pokeID) {
+            let i = this.pokemon.findIndex(poke => poke.id === pokeID)
+            this.pokemon[i].isFavorite = !this.pokemon[i].isFavorite
         }
     },
     mounted() {

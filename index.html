@@ -34,10 +34,12 @@
             </div>
 
             <div class="cards-area">
-                <div class="sort-buttons">
+                <div class="sort-buttons" v-if="!showFavs">
                     Sort By:
-                    <button class="sort-button sort-active">Default</button>
-                    <button class="sort-button">Type</button>
+                    <button v-for="t in types" @click="sortByType(t)" :class="sortedBy === t ? 'sort-button sort-active' : 'sort-button'">{{t}}</button>
+                    <!-- <button class="sort-button sort-active">Default</button>
+                    <button class="sort-button">Type</button> -->
+                    <!-- :class="sortedBy === t ? 'sort-button sort-active : 'sort-button'" -->
                 </div>
                 <div class="poke-wrapper">
                     <a href="#stats-section" v-for="poke in filteredPoke" :key="poke.id" @click="showStats(poke)" class="poke-card">

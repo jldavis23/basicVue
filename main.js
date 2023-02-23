@@ -7,14 +7,18 @@ createApp({
     data() {
         return {
             pokemon: [],
+            types: ['default'],
             favPokemon: [],
             currentStats: null,
-            showFavs: false
+            showFavs: false,
+            sortedPokemon: null,
+            sortedBy: 'default'
         }
     },
     computed: {
         filteredPoke() {
-            return this.showFavs ? this.pokemon.filter((p) => p.isFavorite) : this.pokemon
+            //return this.showFavs ? this.pokemon.filter((p) => p.isFavorite) : this.pokemon
+            return this.showFavs ? this.pokemon.filter((p) => p.isFavorite) : this.sortedPokemon ? this.sortedPokemon : this.pokemon
         }
     },
     methods: {
@@ -26,6 +30,12 @@ createApp({
                     let p = data
                     p.isFavorite = false
                     this.pokemon = [...this.pokemon, p]
+                    p.types.forEach(t => {
+                        if (!this.types.includes(t.type.name)) {
+                            this.types = [...this.types, t.type.name]
+                        }
+                    })
+                    
                 })
             }
         },
@@ -36,6 +46,14 @@ createApp({
         toggleFavorite(pokeID) {
             let i = this.pokemon.findIndex(poke => poke.id === pokeID)
             this.pokemon[i].isFavorite = !this.pokemon[i].isFavorite
+        },
+        sortByType(pokeType) {
+            if (pokeType === 'default') {
+                this.sortedPokemon = null
+            } else {
+                this.sortedPokemon = this.pokemon.filter(p => p.types.some(t => t.type.name === pokeType))
+            }
+            this.sortedBy = pokeType
         }
     },
     mounted() {
